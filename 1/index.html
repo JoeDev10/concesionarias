@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo concesionaria · Pista · Deploy</title>
+<meta name="description" content="Prototipo de web para concesionaria: stock con fotos y filtros, financiación y consultas por WhatsApp. Hecho por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--asf:#111214;--asf2:#1a1c1f;--lin:#2b2e33;--sen:#ffc21a;--tiza:#f2efe6;--gris:#9b9ea3;--wa:#25d366}
+  *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+  body{background:var(--asf);color:var(--tiza);font-family:"Barlow",sans-serif;line-height:1.5;overflow-x:hidden}
+  a{color:inherit} img{display:block;max-width:100%}
+  #banda-demo{background:var(--sen);color:#111;font:600 13px/1.3 "Barlow";padding:8px 16px;text-align:center}
+  #banda-demo a{font-weight:700}
+  header{position:sticky;top:0;z-index:20;background:rgba(17,18,20,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--lin)}
+  .nav{max-width:1160px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px}
+  .logo{font:400 clamp(18px,4.5vw,24px)/1 "Anton";letter-spacing:.5px;text-transform:uppercase;text-decoration:none}
+  .logo::after{content:"";display:inline-block;width:10px;height:10px;background:var(--sen);margin-left:8px;vertical-align:middle}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font:700 15px/1 "Barlow Condensed";letter-spacing:.06em;text-transform:uppercase;padding:13px 18px;border-radius:3px;background:var(--sen);color:#111;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)} .btn.ghost{background:transparent;color:var(--tiza);border:1.5px solid var(--lin)} .btn.wa{background:var(--wa);color:#04210f}
+  .hero{position:relative;min-height:78vh;display:grid;align-items:end;overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.55)}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,18,20,.1),rgba(17,18,20,.95) 88%)}
+  .hero-in{position:relative;z-index:1;max-width:1160px;margin:auto;width:100%;padding:90px 16px 46px}
+  .kicker{font:700 13px "Barlow Condensed";letter-spacing:.25em;text-transform:uppercase;color:var(--sen)}
+  h1{font:400 clamp(48px,11vw,118px)/1.02 "Anton";text-transform:uppercase;margin:12px 0 16px;padding-top:.06em}
+  h1 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--sen)}
+  .hero p{max-width:540px;color:#d6d3ca;font-size:18px}
+  .ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .cinta{height:12px;background:repeating-linear-gradient(90deg,var(--sen) 0 60px,transparent 60px 110px)}
+  section{padding:64px 16px} .wrap{max-width:1160px;margin:auto}
+  h2{font:400 clamp(34px,7vw,60px)/1 "Anton";text-transform:uppercase;margin-bottom:8px}
+  .sub{color:var(--gris);margin-bottom:22px}
+  .filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .chip{background:var(--asf2);border:1px solid var(--lin);color:var(--tiza);padding:9px 14px;border-radius:99px;font:600 14px "Barlow";cursor:pointer}
+  .chip.on{background:var(--sen);color:#111;border-color:var(--sen)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}} @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .auto{background:var(--asf2);border:1px solid var(--lin);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+  .auto:hover{border-color:var(--sen);transform:translateY(-3px)}
+  .foto{aspect-ratio:16/10;position:relative;overflow:hidden;background:#222}
+  .foto img{width:100%;height:100%;object-fit:cover;transition:transform .5s} .auto:hover .foto img{transform:scale(1.05)}
+  .tag{position:absolute;top:10px;left:10px;background:#111;color:var(--sen);font:700 12px "Barlow Condensed";letter-spacing:.12em;text-transform:uppercase;padding:5px 8px}
+  .info{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .info h3{font:700 22px/1.1 "Barlow Condensed";text-transform:uppercase}
+  .meta{display:flex;gap:12px;color:var(--gris);font-size:14px;flex-wrap:wrap}
+  .precio{font:400 28px "Anton";color:var(--sen);margin-top:auto;padding-top:8px}
+  .fin{background:var(--sen);color:#111} .fin .sub{color:#3a3000}
+  .calc{display:grid;gap:16px;background:#111;color:var(--tiza);padding:22px;border-radius:4px;max-width:640px}
+  .calc label{font:700 14px "Barlow Condensed";letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+  .calc input{width:100%;accent-color:var(--sen)} .calc output{font:400 34px "Anton";color:var(--sen)}
+  .panel{display:grid;gap:28px;align-items:center} @media(min-width:900px){.panel{grid-template-columns:1.1fr .9fr}}
+  .lista li{list-style:none;padding:12px 0;border-bottom:1px solid var(--lin);display:flex;gap:12px} .lista b{color:var(--sen);font:400 20px "Anton";min-width:34px}
+  .tel{width:280px;max-width:100%;margin:auto;background:#0b0c0d;border:10px solid #2a2c2f;border-radius:34px;padding:18px 14px}
+  .tel .bar{font:700 13px "Barlow Condensed";letter-spacing:.15em;color:var(--sen);text-transform:uppercase;margin-bottom:12px}
+  .campo{background:#1b1d1f;border:1px solid var(--lin);border-radius:6px;padding:9px 10px;font-size:13px;color:#cfccc3;margin-bottom:8px} .campo small{display:block;color:var(--gris);font-size:11px}
+  .tel img{border-radius:6px;margin:4px 0 10px;aspect-ratio:16/9;object-fit:cover}
+  footer{border-top:1px solid var(--lin);padding:26px 16px 80px;text-align:center;color:var(--gris);font-size:14px}
+  #creditos{max-width:760px;margin:14px auto 0;text-align:left;font-size:12px} #creditos summary{cursor:pointer;text-align:center} #creditos li{margin-left:18px}
+  .flotante{position:fixed;right:16px;bottom:16px;z-index:30;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 26px rgba(37,211,102,.45)}
+  .flotante svg{width:30px;fill:#fff}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s} .reveal.visto{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body data-nombre-demo="Ruta 3 Automotores">
+<div id="banda-demo"></div>
+<header><nav class="nav"><a class="logo" href="#" data-nombre></a><a class="btn" href="#stock">Ver stock</a></nav></header>
+
+<section class="hero" style="padding:0">
+  <img src="../fotos/toyota-hilux.jpg" alt="Toyota Hilux blanca estacionada" fetchpriority="high">
+  <div class="hero-in">
+    <div class="kicker" data-zona="Usados seleccionados · {z}"></div>
+    <h1>Tu próximo auto <em>ya está</em> acá</h1>
+    <p>Stock con fotos y precio actualizado. Elegí, consultá por WhatsApp y coordiná la prueba de manejo en minutos.</p>
+    <div class="ctas"><a class="btn" href="#stock">Ver los autos</a><a class="btn ghost" href="#financiacion">Calcular cuota</a></div>
+  </div>
+</section>
+<div class="cinta"></div>
+
+<section id="stock"><div class="wrap">
+  <h2 class="reveal">Stock disponible</h2>
+  <p class="sub reveal">Filtrá por tipo. Cada auto tiene su botón para consultar al instante.</p>
+  <div class="filtros" id="filtros">
+    <button class="chip on" data-t="todos">Todos</button><button class="chip" data-t="hatch">Hatchback</button><button class="chip" data-t="sedan">Sedán</button><button class="chip" data-t="suv">SUV</button><button class="chip" data-t="pickup">Pick-up</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="fin" id="financiacion"><div class="wrap">
+  <h2 class="reveal">Financiá tu auto</h2>
+  <p class="sub reveal">Cuota estimada. En tu web, la tasa y los plazos los cargás vos.</p>
+  <div class="calc">
+    <div><label for="pr">Precio</label><br><output id="oPr"></output><input type="range" id="pr" min="6000" max="50000" step="500" value="18000"></div>
+    <div><label for="an">Anticipo</label><br><output id="oAn"></output><input type="range" id="an" min="30" max="80" step="5" value="40"></div>
+    <div><label for="me">Plazo</label><br><output id="oMe"></output><input type="range" id="me" min="12" max="48" step="12" value="24"></div>
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:10px;border-top:1px dashed var(--lin);padding-top:14px">
+      <div><label>Cuota estimada</label><br><output id="oCu"></output></div><a class="btn wa" href="#" id="pedirFin">Pedir esta financiación</a></div>
+  </div>
+</div></section>
+
+<section><div class="wrap panel">
+  <div>
+    <h2 class="reveal">Cargás el stock desde el celular</h2>
+    <p class="sub reveal">La web viene con un panel de administración simple.</p>
+    <ul class="lista">
+      <li><b>01</b><span>Subís fotos, precio y kilometraje en 2 minutos.</span></li>
+      <li><b>02</b><span>Marcás un auto como <strong>vendido</strong> y desaparece del stock.</span></li>
+      <li><b>03</b><span>Las consultas llegan a tu WhatsApp con el auto ya identificado.</span></li>
+      <li><b>04</b><span>Opcional: un asistente responde solo las preguntas repetidas.</span></li>
+    </ul>
+  </div>
+  <div class="tel reveal" aria-hidden="true">
+    <div class="bar">Panel · Nuevo auto</div>
+    <div class="campo"><small>Modelo</small>Peugeot 208 GT</div>
+    <div class="campo"><small>Año · Km</small>2021 · 39.000 km</div>
+    <img src="../fotos/peugeot-208.jpg" alt="" loading="lazy">
+    <span class="btn" style="width:100%">Publicar en la web</span>
+  </div>
+</div></section>
+
+<section style="text-align:center"><div class="wrap">
+  <h2 class="reveal" data-nombre="¿Lo hacemos realidad para {n}?"></h2>
+  <p class="sub reveal">Es un prototipo: lo adapto con tu marca, tus autos y tus colores.</p>
+  <a class="btn wa" href="#" data-wa="Hola! Soy de {n}, vi el prototipo y quiero una web así">Quiero mi web así</a>
+</div></section>
+
+<footer>Prototipo de <strong>Deploy</strong> · Páginas web y automatizaciones · <a href="https://joedev10.github.io/">joedev10.github.io</a><div id="creditos"></div></footer>
+<a class="flotante" href="#" data-wa="Hola! Estoy viendo el prototipo de {n}" aria-label="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.3 14.3 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script src="../autos.js"></script>
+<script src="../comun.js"></script>
+<script>
+document.addEventListener("autos-listos", ({ detail: D }) => {
+  let tipo = "todos";
+  const grid = document.getElementById("grid");
+  const pintar = () => {
+    const lista = D.autos.filter(a => tipo === "todos" || a.t === tipo).slice(0, 12);
+    grid.innerHTML = lista.map(a => `
+      <article class="auto reveal">
+        <div class="foto"><img src="${D.foto(a)}" alt="${D.esc(a.m)}" loading="lazy">${a.a ? `<span class="tag">${a.a}</span>` : ""}</div>
+        <div class="info"><h3>${D.esc(a.m)}</h3>
+          <div class="meta">${D.km(a) ? `<span>${D.km(a)}</span>` : ""}<span>${D.tipo(a.t) || ""}</span><span>Transferencia incluida</span></div>
+          <div class="precio">${D.precio(a)}</div>
+          <a class="btn wa" href="#" data-wa="Hola! Me interesa el ${D.esc(a.m)} ${a.a || ""}. ¿Sigue disponible?">Consultar por WhatsApp</a>
+        </div></article>`).join("") || `<p class="sub">No hay autos de ese tipo ahora.</p>`;
+    D.revelar(grid);
+  };
+  document.getElementById("filtros").addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    document.querySelectorAll("#filtros .chip").forEach(x => x.classList.remove("on")); b.classList.add("on"); tipo = b.dataset.t; pintar();
+  });
+  if (D.stockPropio) document.getElementById("filtros").style.display = "none";
+  pintar();
+  const $ = id => document.getElementById(id), f = n => "USD " + Math.round(n).toLocaleString("es-AR");
+  const calc = () => {
+    const p = +$("pr").value, an = +$("an").value, m = +$("me").value, s = p * (1 - an / 100), t = .012, c = s * t / (1 - Math.pow(1 + t, -m));
+    $("oPr").textContent = f(p); $("oAn").textContent = an + "%"; $("oMe").textContent = m + " meses"; $("oCu").textContent = f(c);
+    $("pedirFin").dataset.wa = `Hola! Quiero financiar un auto de ${f(p)} con ${an}% de anticipo en ${m} meses.`;
+  };
+  ["pr", "an", "me"].forEach(id => $(id).addEventListener("input", calc)); calc();
+  D.revelar();
+});
+</script>
+</body>
+</html>

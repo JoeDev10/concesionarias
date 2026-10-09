@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipos para concesionarias · Deploy</title>
+<meta name="description" content="5 prototipos de web para concesionarias de autos, hechos por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--fondo:#f4f3ef;--tinta:#161616;--suave:#666;--lin:#dcdad3;--acento:#e10600}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--fondo);color:var(--tinta);font:500 16px/1.5 "Archivo",sans-serif}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:auto;padding:40px 16px}
+  h1{font:900 clamp(34px,7vw,64px)/1 "Archivo";letter-spacing:-.02em}
+  p.sub{color:var(--suave);margin:12px 0 30px;max-width:620px}
+  .grid{display:grid;gap:18px} @media(min-width:760px){.grid{grid-template-columns:repeat(2,1fr)}} @media(min-width:1060px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .card{background:#fff;border:1px solid var(--lin);border-radius:14px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.1)}
+  .card img{width:100%;aspect-ratio:16/10;object-fit:cover}
+  .card div{padding:16px} .card b{font:900 22px "Archivo"} .card span{display:block;color:var(--suave);font-size:14px;margin-top:4px}
+  .num{color:var(--acento)}
+  footer{color:var(--suave);font-size:13px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>5 prototipos para concesionarias</h1>
+  <p class="sub">Hechos por Deploy. Cada uno se personaliza con el nombre de la agencia agregando <code>?n=Nombre&amp;z=Localidad</code> al link.</p>
+  <div class="grid">
+    <a class="card" href="1/"><img src="fotos/toyota-hilux.jpg" alt=""><div><b><span class="num">1</span> Pista</b><span>Oscuro industrial · agencias de usados con volumen</span></div></a>
+    <a class="card" href="2/"><img src="fotos/toyota-sw4.jpg" alt=""><div><b><span class="num">2</span> Reserva</b><span>Premium negro y dorado · autos caros e importados</span></div></a>
+    <a class="card" href="3/"><img src="fotos/ford-ranger.jpg" alt=""><div><b><span class="num">3</span> Turbo</b><span>Deportivo · pick-ups y SUVs, toma de usados</span></div></a>
+    <a class="card" href="4/"><img src="fotos/peugeot-2008.jpg" alt=""><div><b><span class="num">4</span> Clasificado</b><span>Buscador con filtros · agencias con mucho stock</span></div></a>
+    <a class="card" href="5/"><img src="fotos/vw-gol-trend.jpg" alt=""><div><b><span class="num">5</span> Barrio</b><span>Cálido y familiar · agencias chicas de toda la vida</span></div></a>
+  </div>
+</div>
+<footer>Fotos reales de Wikimedia Commons con licencias libres (créditos en cada prototipo).</footer>
+</body>
+</html>

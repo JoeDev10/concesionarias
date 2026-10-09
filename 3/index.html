@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo concesionaria · Turbo · Deploy</title>
+<meta name="description" content="Prototipo de web deportiva para concesionaria: SUVs y pick-ups, permuta de usados y consultas por WhatsApp. Hecho por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:ital,wght@0,600;0,800;1,800&family=Saira:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--blanco:#f7f7f5;--negro:#141414;--rojo:#e10600;--rojo2:#b30500;--gris:#6d6d6d;--lin:#e1e1dc;--wa:#25d366}
+  *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+  body{background:var(--blanco);color:var(--negro);font:400 16px/1.55 "Saira",sans-serif;overflow-x:hidden}
+  a{color:inherit} img{display:block;max-width:100%}
+  #banda-demo{background:var(--negro);color:#fff;font-size:13px;padding:8px 16px;text-align:center} #banda-demo a{color:#ff6b66;font-weight:600}
+  header{background:var(--blanco);border-bottom:3px solid var(--negro);position:sticky;top:0;z-index:20}
+  .nav{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;gap:12px}
+  .logo{font:italic 800 clamp(20px,5vw,30px)/1 "Saira Condensed";text-transform:uppercase;text-decoration:none;letter-spacing:-.01em}
+  .logo::before{content:"";display:inline-block;width:22px;height:14px;margin-right:8px;background:linear-gradient(90deg,var(--rojo) 0 33%,transparent 33% 45%,var(--rojo) 45% 70%,transparent 70% 80%,var(--rojo) 80%);transform:skewX(-20deg)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:0;text-decoration:none;font:800 16px "Saira Condensed";letter-spacing:.06em;text-transform:uppercase;padding:13px 22px;background:var(--rojo);color:#fff;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:background .2s,transform .2s}
+  .btn:hover{background:var(--rojo2);transform:translateX(3px)} .btn.negro{background:var(--negro)} .btn.wa{background:var(--wa);color:#04210f}
+  .hero{position:relative;overflow:hidden;background:var(--negro);color:#fff}
+  .hero::before{content:"";position:absolute;inset:0 0 0 auto;width:62%;background:url(../fotos/ford-ranger.jpg) center/cover;clip-path:polygon(18% 0,100% 0,100% 100%,0 100%)}
+  @media(max-width:820px){.hero::before{width:100%;clip-path:none;opacity:.35}}
+  .hero::after{content:"";position:absolute;left:34%;top:-10%;bottom:-10%;width:60px;background:var(--rojo);transform:skewX(-14deg)}
+  @media(max-width:820px){.hero::after{display:none}}
+  .hero-in{position:relative;z-index:1;max-width:1180px;margin:auto;padding:70px 16px 80px;min-height:560px;display:flex;flex-direction:column;justify-content:center}
+  .chapa{font:800 13px "Saira Condensed";letter-spacing:.3em;text-transform:uppercase;color:#ff6b66}
+  h1{font:italic 800 clamp(56px,12vw,128px)/.88 "Saira Condensed";text-transform:uppercase;margin:12px 0 18px;max-width:640px}
+  h1 span{color:var(--rojo);display:block}
+  .hero p{max-width:420px;color:#d9d9d4}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .rayas{height:16px;background:repeating-linear-gradient(-55deg,var(--negro) 0 14px,var(--blanco) 14px 28px)}
+  section{padding:64px 16px} .wrap{max-width:1180px;margin:auto}
+  h2{font:italic 800 clamp(38px,8vw,72px)/.9 "Saira Condensed";text-transform:uppercase;margin-bottom:10px}
+  h2 em{color:var(--rojo);font-style:inherit}
+  .sub{color:var(--gris);margin-bottom:26px;max-width:540px}
+  .tabs{display:flex;gap:0;margin-bottom:24px;border:2px solid var(--negro);width:max-content;max-width:100%;overflow-x:auto}
+  .tabs button{border:0;background:transparent;font:800 15px "Saira Condensed";letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;cursor:pointer;white-space:nowrap}
+  .tabs button.on{background:var(--negro);color:#fff}
+  .grid{display:grid;gap:22px;grid-template-columns:1fr} @media(min-width:680px){.grid{grid-template-columns:repeat(2,1fr)}} @media(min-width:1040px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .card{background:#fff;border:2px solid var(--negro);position:relative;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--rojo)}
+  .card .foto{aspect-ratio:16/10;overflow:hidden;border-bottom:2px solid var(--negro)} .card img{width:100%;height:100%;object-fit:cover}
+  .card .anio{position:absolute;top:12px;right:-2px;background:var(--rojo);color:#fff;font:italic 800 18px "Saira Condensed";padding:2px 12px 2px 16px;clip-path:polygon(10px 0,100% 0,100% 100%,0 100%)}
+  .card .cuerpo{padding:16px}
+  .card h3{font:800 24px/1 "Saira Condensed";text-transform:uppercase}
+  .card .datos{display:flex;gap:14px;color:var(--gris);font-size:14px;margin:6px 0 12px;flex-wrap:wrap}
+  .card .pie{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .card .precio{font:italic 800 28px "Saira Condensed"}
+  .permuta{background:var(--negro);color:#fff;position:relative;overflow:hidden}
+  .permuta::before{content:"";position:absolute;right:-80px;top:0;bottom:0;width:340px;background:repeating-linear-gradient(-55deg,var(--rojo) 0 22px,transparent 22px 44px);opacity:.25}
+  .permuta .sub{color:#bdbdb7}
+  .cotiza{position:relative;display:grid;gap:14px;max-width:620px;background:#1f1f1f;border-left:6px solid var(--rojo);padding:22px}
+  .cotiza .dos{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  .cotiza label{font:800 12px "Saira Condensed";letter-spacing:.2em;text-transform:uppercase;color:#9a9a94;display:block;margin-bottom:4px}
+  .cotiza input,.cotiza select{width:100%;background:#141414;border:1px solid #3a3a3a;color:#fff;padding:11px;font:500 15px "Saira";border-radius:0}
+  .ventajas{display:grid;gap:18px} @media(min-width:860px){.ventajas{grid-template-columns:repeat(3,1fr)}}
+  .v{border-top:4px solid var(--negro);padding-top:14px} .v b{font:italic 800 46px/1 "Saira Condensed";color:var(--rojo)} .v h3{font:800 22px "Saira Condensed";text-transform:uppercase;margin:6px 0} .v p{color:var(--gris)}
+  footer{border-top:3px solid var(--negro);padding:28px 16px 90px;text-align:center;font-size:14px;color:var(--gris)}
+  #creditos{max-width:760px;margin:14px auto 0;text-align:left;font-size:12px} #creditos summary{cursor:pointer;text-align:center} #creditos li{margin-left:18px}
+  .flotante{position:fixed;right:16px;bottom:16px;z-index:30;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 26px rgba(37,211,102,.45)} .flotante svg{width:30px;fill:#fff}
+  .reveal{opacity:0;transform:translateX(-18px);transition:opacity .6s,transform .6s} .reveal.visto{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body data-nombre-demo="Turbo Motors">
+<div id="banda-demo"></div>
+<header><nav class="nav"><a class="logo" href="#" data-nombre></a><a class="btn" href="#stock">Stock</a></nav></header>
+
+<section class="hero" style="padding:0"><div class="hero-in">
+  <div class="chapa" data-zona="SUVs · Pick-ups · Usados · {z}"></div>
+  <h1>Salí manejando <span>hoy.</span></h1>
+  <p>Unidades listas para transferir, con financiación y toma de usados. Consultá por WhatsApp y te respondemos en el momento.</p>
+  <div class="ctas"><a class="btn" href="#stock">Ver unidades</a><a class="btn negro" style="background:#fff;color:#141414" href="#permuta">Cotizá tu usado</a></div>
+</div></section>
+<div class="rayas"></div>
+
+<section id="stock"><div class="wrap">
+  <h2 class="reveal">Unidades <em>disponibles</em></h2>
+  <p class="sub reveal">Cargadas desde el panel: foto, precio y kilometraje siempre al día.</p>
+  <div class="tabs" id="tabs"><button class="on" data-t="todos">Todo</button><button data-t="pickup">Pick-ups</button><button data-t="suv">SUVs</button><button data-t="autos">Autos</button></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="permuta" id="permuta"><div class="wrap">
+  <h2 class="reveal">Tu usado <em>vale</em></h2>
+  <p class="sub reveal">Completá 4 datos y la cotización llega ordenada al WhatsApp de la agencia.</p>
+  <div class="cotiza">
+    <div class="dos"><div><label for="cMarca">Marca y modelo</label><input id="cMarca" placeholder="Ej: Gol Trend"></div><div><label for="cAnio">Año</label><select id="cAnio"></select></div></div>
+    <div class="dos"><div><label for="cKm">Kilómetros</label><input id="cKm" inputmode="numeric" placeholder="Ej: 85000"></div><div><label for="cInt">Me interesa</label><select id="cInt"></select></div></div>
+    <a class="btn" href="#" id="cOk">Pedir cotización</a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 class="reveal">Lo que trae <em>la web</em></h2>
+  <div class="ventajas" style="margin-top:24px">
+    <div class="v reveal"><b>01</b><h3>Panel propio</h3><p>Subís y bajás autos desde el celular, sin depender de nadie.</p></div>
+    <div class="v reveal"><b>02</b><h3>Consultas ordenadas</h3><p>Cada mensaje llega con la unidad y los datos del cliente.</p></div>
+    <div class="v reveal"><b>03</b><h3>Respuesta automática</h3><p>Un asistente contesta las preguntas repetidas fuera de horario.</p></div>
+  </div>
+  <div style="margin-top:48px;text-align:center"><h2 class="reveal" data-nombre="¿Arrancamos con {n}?"></h2>
+    <p class="sub reveal" style="margin:10px auto 22px">Esto es un prototipo: lo adapto con tu marca, tus unidades y tus colores.</p>
+    <a class="btn wa" href="#" data-wa="Hola! Soy de {n}, vi el prototipo y quiero una web así">Quiero mi web así</a></div>
+</div></section>
+
+<footer>Prototipo de <strong>Deploy</strong> · Páginas web y automatizaciones · <a href="https://joedev10.github.io/">joedev10.github.io</a><div id="creditos"></div></footer>
+<a class="flotante" href="#" data-wa="Hola! Estoy viendo el prototipo de {n}" aria-label="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.3 14.3 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script src="../autos.js"></script>
+<script src="../comun.js"></script>
+<script>
+document.addEventListener("autos-listos", ({ detail: D }) => {
+  let filtro = "todos";
+  const grid = document.getElementById("grid");
+  const pasa = a => filtro === "todos" || (filtro === "autos" ? ["hatch", "sedan"].includes(a.t) : a.t === filtro);
+  const pintar = () => {
+    const base = D.stockPropio ? D.autos : [...D.autos].sort((a, b) => (b.t === "pickup") - (a.t === "pickup") || (b.t === "suv") - (a.t === "suv"));
+    grid.innerHTML = base.filter(pasa).slice(0, 9).map(a => `
+      <article class="card reveal">
+        <div class="foto"><img src="${D.foto(a)}" alt="${D.esc(a.m)}" loading="lazy"></div>${a.a ? `<span class="anio">${a.a}</span>` : ""}
+        <div class="cuerpo"><h3>${D.esc(a.m)}</h3>
+          <div class="datos">${D.km(a) ? `<span>${D.km(a)}</span>` : ""}<span>${D.tipo(a.t) || ""}</span><span>Financiación</span></div>
+          <div class="pie"><span class="precio">${D.precio(a)}</span><a class="btn wa" href="#" data-wa="Hola! Quiero info del ${D.esc(a.m)} ${a.a || ""}.">Consultar</a></div>
+        </div></article>`).join("") || `<p class="sub">Sin unidades en esta categoría por ahora.</p>`;
+    D.revelar(grid);
+  };
+  document.getElementById("tabs").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    document.querySelectorAll("#tabs button").forEach(x => x.classList.remove("on")); b.classList.add("on"); filtro = b.dataset.t; pintar();
+  });
+  if (D.stockPropio) document.getElementById("tabs").style.display = "none";
+  pintar();
+  const anio = document.getElementById("cAnio"), y = new Date().getFullYear();
+  anio.innerHTML = Array.from({ length: 20 }, (_, i) => `<option>${y - i}</option>`).join("");
+  document.getElementById("cInt").innerHTML = ["Solo vender mi usado"].concat(D.autos.slice(0, 10).map(a => D.esc(a.m))).map(o => `<option>${o}</option>`).join("");
+  const act = () => {
+    const v = id => document.getElementById(id).value.trim();
+    document.getElementById("cOk").dataset.wa = `Hola! Quiero cotizar mi ${v("cMarca") || "auto"} ${v("cAnio")} con ${v("cKm") || "?"} km. Me interesa: ${v("cInt")}.`;
+  };
+  ["cMarca", "cAnio", "cKm", "cInt"].forEach(id => document.getElementById(id).addEventListener("input", act)); act();
+  D.revelar();
+});
+</script>
+</body>
+</html>

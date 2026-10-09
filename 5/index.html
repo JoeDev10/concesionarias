@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo concesionaria · Barrio · Deploy</title>
+<meta name="description" content="Prototipo de web para agencia de autos de barrio: auto de la semana, stock con fotos, cómo comprar y consultas por WhatsApp. Hecho por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--crema:#f5efe3;--crema2:#ebe2d1;--verde:#1e4634;--verde2:#163627;--terra:#c2562f;--tinta:#231d17;--suave:#6e6457;--lin:#d9cdb8;--wa:#25d366}
+  *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+  body{background:var(--crema);color:var(--tinta);font:400 16px/1.6 "Instrument Sans",sans-serif;overflow-x:hidden}
+  a{color:inherit} img{display:block;max-width:100%}
+  #banda-demo{background:var(--verde);color:#e8efe9;font-size:13px;padding:8px 16px;text-align:center} #banda-demo a{color:#fff;font-weight:700}
+  header{max-width:1140px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 16px}
+  .logo{font:400 clamp(20px,5vw,28px)/1.05 "Young Serif",serif;text-decoration:none}
+  .logo small{display:block;font:600 11px "Instrument Sans";letter-spacing:.2em;text-transform:uppercase;color:var(--terra);margin-top:4px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:0;text-decoration:none;font:700 15px "Instrument Sans";padding:13px 20px;border-radius:999px;background:var(--verde);color:#fff;transition:background .2s,transform .2s}
+  .btn:hover{background:var(--verde2);transform:translateY(-2px)} .btn.terra{background:var(--terra)} .btn.wa{background:var(--wa);color:#063b1c} .btn.linea{background:transparent;color:var(--tinta);border:1.5px solid var(--tinta)}
+  .hero{max-width:1140px;margin:auto;padding:16px 16px 60px;display:grid;gap:34px;align-items:center}
+  @media(min-width:900px){.hero{grid-template-columns:1fr 1fr}}
+  .hero small{font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);font-size:12px}
+  h1{font:400 clamp(42px,8.5vw,80px)/1.02 "Young Serif",serif;margin:12px 0 18px}
+  .hero p{color:var(--suave);font-size:18px;max-width:470px}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .marco{position:relative}
+  .marco img{border-radius:24px 24px 160px 24px;aspect-ratio:5/4;object-fit:cover;width:100%;box-shadow:0 24px 50px rgba(35,29,23,.18)}
+  .marco .etiqueta{position:absolute;left:-10px;bottom:22px;background:var(--crema);border:1.5px solid var(--tinta);border-radius:14px;padding:10px 14px;font-size:14px;box-shadow:4px 4px 0 var(--tinta)}
+  .marco .etiqueta b{display:block;font:400 18px "Young Serif"}
+  section{padding:64px 16px} .wrap{max-width:1140px;margin:auto}
+  h2{font:400 clamp(32px,6vw,52px)/1.08 "Young Serif",serif;margin-bottom:10px}
+  .sub{color:var(--suave);max-width:560px;margin-bottom:28px}
+  .semana{background:var(--verde);color:#f1ece2;border-radius:28px;margin:0 12px;padding:clamp(22px,5vw,54px);display:grid;gap:28px;align-items:center}
+  @media(min-width:900px){.semana{grid-template-columns:1.1fr .9fr}}
+  .semana img{border-radius:18px;aspect-ratio:16/10;object-fit:cover;width:100%}
+  .semana small{letter-spacing:.2em;text-transform:uppercase;font-weight:700;font-size:12px;color:#f0b49c}
+  .semana h3{font:400 clamp(28px,4.5vw,42px)/1.1 "Young Serif";margin:10px 0}
+  .semana ul{list-style:none;display:grid;gap:6px;margin:14px 0 20px;color:#cfdcd2} .semana li::before{content:"— ";color:#f0b49c}
+  .semana .precio{font:400 34px "Young Serif";color:#fff;margin-bottom:16px}
+  .filas{display:grid;gap:0;border-top:1.5px solid var(--tinta)}
+  .fila{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--lin)}
+  @media(min-width:700px){.fila{grid-template-columns:150px 1fr auto auto;gap:22px}}
+  .fila img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px}
+  .fila h3{font:400 21px/1.2 "Young Serif"} .fila .d{color:var(--suave);font-size:14px}
+  .fila .p{font:700 18px "Instrument Sans";grid-column:2} @media(min-width:700px){.fila .p{grid-column:auto}}
+  .fila .btn{grid-column:2;justify-self:start;padding:9px 14px;font-size:14px} @media(min-width:700px){.fila .btn{grid-column:auto}}
+  .pasos{display:grid;gap:18px} @media(min-width:860px){.pasos{grid-template-columns:repeat(3,1fr)}}
+  .paso{background:#fffaf1;border:1.5px solid var(--tinta);border-radius:20px;padding:22px;box-shadow:5px 5px 0 var(--crema2)}
+  .paso b{font:400 44px/1 "Young Serif";color:var(--terra)} .paso h3{font:400 22px "Young Serif";margin:8px 0} .paso p{color:var(--suave)}
+  .visita{display:grid;gap:26px} @media(min-width:900px){.visita{grid-template-columns:1fr 1fr;align-items:start}}
+  .ficha{background:var(--crema2);border-radius:20px;padding:22px;display:grid;gap:12px}
+  .ficha div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--lin);padding-bottom:8px} .ficha span{color:var(--suave)}
+  .mapa{aspect-ratio:16/9;border-radius:16px;background:linear-gradient(90deg,rgba(30,70,52,.08) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(rgba(30,70,52,.08) 1px,transparent 1px) 0 0/28px 28px,#efe7d8;position:relative;border:1.5px solid var(--tinta)}
+  .mapa::after{content:"";position:absolute;left:50%;top:44%;width:22px;height:22px;background:var(--terra);border:3px solid #fff;border-radius:50% 50% 50% 0;transform:translate(-50%,-50%) rotate(-45deg);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+  footer{border-top:1px solid var(--lin);padding:26px 16px 90px;text-align:center;color:var(--suave);font-size:14px}
+  #creditos{max-width:760px;margin:14px auto 0;text-align:left;font-size:12px} #creditos summary{cursor:pointer;text-align:center} #creditos li{margin-left:18px}
+  .flotante{position:fixed;right:16px;bottom:16px;z-index:30;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 26px rgba(37,211,102,.4)} .flotante svg{width:30px;fill:#fff}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s} .reveal.visto{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body data-nombre-demo="Autos Don Carlos">
+<div id="banda-demo"></div>
+<header>
+  <a class="logo" href="#"><span data-nombre></span><small data-zona="Agencia de autos · {z}"></small></a>
+  <a class="btn" href="#stock">Ver autos</a>
+</header>
+
+<section class="hero" style="padding-top:16px">
+  <div>
+    <small data-zona="Tu agencia de confianza en {z}"></small>
+    <h1>Autos usados, trato de vecino.</h1>
+    <p>Te mostramos cada auto con fotos reales y precio claro. Vení a verlo cuando quieras o consultanos por WhatsApp sin compromiso.</p>
+    <div class="ctas"><a class="btn terra" href="#stock">Ver los autos</a><a class="btn linea" href="#visita">Cómo llegar</a></div>
+  </div>
+  <div class="marco reveal"><img src="../fotos/vw-gol-trend.jpg" alt="Volkswagen Gol Trend plateado" fetchpriority="high"><div class="etiqueta"><b>Revisados uno por uno</b>Transferencia incluida</div></div>
+</section>
+
+<div class="semana reveal" id="semana"></div>
+
+<section id="stock"><div class="wrap">
+  <h2 class="reveal">Los autos que tenemos hoy</h2>
+  <p class="sub reveal">La lista se actualiza desde el panel de la agencia. Si uno se vende, desaparece solo.</p>
+  <div class="filas" id="filas"></div>
+</div></section>
+
+<section style="background:#efe6d4"><div class="wrap">
+  <h2 class="reveal">Comprar es así de simple</h2>
+  <p class="sub reveal">Sin vueltas ni letra chica.</p>
+  <div class="pasos">
+    <div class="paso reveal"><b>1</b><h3>Elegís online</h3><p>Mirás fotos y precios, y consultás por WhatsApp con el auto ya elegido.</p></div>
+    <div class="paso reveal"><b>2</b><h3>Lo ves y lo manejás</h3><p>Coordinás día y hora. Te esperamos con el auto listo para la prueba.</p></div>
+    <div class="paso reveal"><b>3</b><h3>Te lo llevás</h3><p>Nos ocupamos de la transferencia. Si querés, tomamos tu usado.</p></div>
+  </div>
+</div></section>
+
+<section id="visita"><div class="wrap visita">
+  <div>
+    <h2 class="reveal" data-nombre="Visitá {n}"></h2>
+    <p class="sub reveal">En tu web van tu dirección real, tus horarios y un mapa con indicaciones.</p>
+    <div class="ficha">
+      <div><span>Zona</span><strong data-zona></strong></div>
+      <div><span>Lunes a viernes</span><strong>9 a 19 h</strong></div>
+      <div><span>Sábados</span><strong>9 a 13 h</strong></div>
+      <div style="border:0"><span>Consultas</span><strong>WhatsApp</strong></div>
+    </div>
+  </div>
+  <div class="mapa reveal" role="img" aria-label="Mapa de ubicación de ejemplo"></div>
+</div></section>
+
+<section style="text-align:center;padding-top:20px"><div class="wrap">
+  <h2 class="reveal" data-nombre="¿Te gustaría una web así para {n}?"></h2>
+  <p class="sub reveal" style="margin:10px auto 22px">Es un prototipo: lo adapto con tu nombre, tus autos y tus fotos.</p>
+  <a class="btn wa" href="#" data-wa="Hola! Soy de {n}, vi el prototipo y quiero una web así">Quiero mi web así</a>
+</div></section>
+
+<footer>Prototipo de <strong>Deploy</strong> · Páginas web y automatizaciones · <a href="https://joedev10.github.io/">joedev10.github.io</a><div id="creditos"></div></footer>
+<a class="flotante" href="#" data-wa="Hola! Estoy viendo el prototipo de {n}" aria-label="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.3 14.3 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script src="../autos.js"></script>
+<script src="../comun.js"></script>
+<script>
+document.addEventListener("autos-listos", ({ detail: D }) => {
+  const accesibles = D.stockPropio ? D.autos : [...D.autos].sort((a, b) => a.p - b.p);
+  const estrella = D.stockPropio ? D.autos[0] : D.autos.find(a => /Cronos/.test(a.m)) || accesibles[0];
+  document.getElementById("semana").innerHTML = `
+    <div><small>Auto de la semana</small><h3>${D.esc(estrella.m)}</h3>
+      <ul>${[estrella.a && "Año " + estrella.a, D.km(estrella), D.tipo(estrella.t), "Listo para transferir"].filter(Boolean).map(x => `<li>${x}</li>`).join("")}</ul>
+      <div class="precio">${D.precio(estrella)}</div>
+      <a class="btn wa" href="#" data-wa="Hola! Me interesa el auto de la semana: ${D.esc(estrella.m)} ${estrella.a || ""}">Lo quiero ver</a></div>
+    <img src="${D.foto(estrella)}" alt="${D.esc(estrella.m)}" loading="lazy">`;
+  document.getElementById("filas").innerHTML = accesibles.filter(a => a !== estrella).slice(0, 10).map(a => `
+    <div class="fila reveal">
+      <img src="${D.foto(a)}" alt="${D.esc(a.m)}" loading="lazy">
+      <div><h3>${D.esc(a.m)}</h3><div class="d">${[a.a, D.km(a), D.tipo(a.t)].filter(Boolean).join(" · ")}</div></div>
+      <div class="p">${D.precio(a)}</div>
+      <a class="btn" href="#" data-wa="Hola! Quiero consultar por el ${D.esc(a.m)} ${a.a || ""}">Consultar</a>
+    </div>`).join("");
+  D.revelar();
+});
+</script>
+</body>
+</html>

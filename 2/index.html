@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo concesionaria · Reserva · Deploy</title>
+<meta name="description" content="Prototipo de web premium para concesionaria: vehículos seleccionados, visitas privadas y consultas por WhatsApp. Hecho por Deploy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--negro:#0c0b0a;--negro2:#161412;--marfil:#efe8dc;--oro:#c8a96a;--oro2:#e2c98f;--gris:#8f877b;--lin:#2a2622;--wa:#25d366}
+  *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+  body{background:var(--negro);color:var(--marfil);font:300 16px/1.65 "Jost",sans-serif;overflow-x:hidden}
+  a{color:inherit} img{display:block;max-width:100%}
+  #banda-demo{background:var(--negro2);color:var(--oro2);font-size:12px;letter-spacing:.06em;padding:9px 16px;text-align:center;border-bottom:1px solid var(--lin)}
+  #banda-demo a{color:var(--marfil);font-weight:500}
+  header{position:absolute;top:36px;left:0;right:0;z-index:5}
+  .nav{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:16px}
+  .logo{font:400 clamp(22px,5vw,30px)/1 "Cormorant Garamond",serif;letter-spacing:.04em;text-decoration:none}
+  .nav a.link{font-size:12px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--oro);padding-bottom:4px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;border:1px solid var(--oro);background:transparent;color:var(--marfil);font:400 12px "Jost";letter-spacing:.25em;text-transform:uppercase;padding:15px 24px;transition:background .3s,color .3s}
+  .btn:hover,.btn.lleno{background:var(--oro);color:var(--negro)}
+  .btn.wa{border-color:var(--wa);color:var(--wa)} .btn.wa:hover{background:var(--wa);color:#04210f}
+  .hero{position:relative;height:100vh;min-height:620px;display:flex;align-items:flex-end;overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:lento 18s ease-out forwards}
+  @keyframes lento{from{transform:scale(1.08)}to{transform:scale(1)}}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,11,10,.92) 0%,rgba(12,11,10,.55) 50%,rgba(12,11,10,.15)),linear-gradient(0deg,var(--negro),transparent 40%)}
+  .hero-in{position:relative;z-index:1;max-width:1180px;margin:auto;width:100%;padding:0 16px 9vh}
+  .volanta{font-size:12px;letter-spacing:.35em;text-transform:uppercase;color:var(--oro)}
+  h1{font:400 clamp(46px,9vw,104px)/.98 "Cormorant Garamond",serif;margin:18px 0 22px;max-width:780px}
+  h1 i{color:var(--oro2)}
+  .hero p{max-width:440px;color:#cfc6b8}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+  section{padding:90px 16px} .wrap{max-width:1180px;margin:auto}
+  .titulo{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+  h2{font:400 clamp(38px,6vw,64px)/1 "Cormorant Garamond",serif}
+  h2 i{color:var(--oro)}
+  .sub{color:var(--gris);max-width:420px}
+  .vitrina{display:grid;gap:2px;grid-template-columns:1fr}
+  @media(min-width:760px){.vitrina{grid-template-columns:repeat(2,1fr)}}
+  .pieza{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--negro2)}
+  .pieza:first-child{aspect-ratio:auto} @media(min-width:760px){.pieza:first-child{grid-row:span 2}}
+  .pieza img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s,filter .6s;filter:brightness(.8)}
+  .pieza:hover img{transform:scale(1.05);filter:brightness(.62)}
+  .pieza .txt{position:absolute;left:0;right:0;bottom:0;padding:26px;background:linear-gradient(0deg,rgba(12,11,10,.92),transparent)}
+  .pieza small{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--oro)}
+  .pieza h3{font:400 clamp(24px,3vw,34px)/1.1 "Cormorant Garamond",serif;margin:6px 0}
+  .pieza .fila{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:#cfc6b8;font-size:14px}
+  .pieza .fila a{font-size:11px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--oro);padding-bottom:3px}
+  .mas{text-align:center;margin-top:40px}
+  .servicio{display:grid;gap:0;border-top:1px solid var(--lin)} @media(min-width:860px){.servicio{grid-template-columns:repeat(3,1fr)}}
+  .serv{padding:34px 26px 34px 0;border-bottom:1px solid var(--lin)} @media(min-width:860px){.serv{border-bottom:0;border-right:1px solid var(--lin);padding:34px 28px}.serv:first-child{padding-left:0}.serv:last-child{border-right:0}}
+  .serv .n{font:italic 400 40px/1 "Cormorant Garamond";color:var(--oro)}
+  .serv h3{font:400 26px "Cormorant Garamond";margin:12px 0 8px} .serv p{color:var(--gris)}
+  .visita{background:var(--negro2);border:1px solid var(--lin);padding:clamp(24px,5vw,56px);display:grid;gap:30px} @media(min-width:900px){.visita{grid-template-columns:1fr 1fr;align-items:center}}
+  .form{display:grid;gap:18px}
+  .form label{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);display:block;margin-bottom:6px}
+  .form select,.form input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--lin);color:var(--marfil);font:300 17px "Jost";padding:8px 0;border-radius:0}
+  .form select option{color:#111}
+  footer{padding:40px 16px 90px;text-align:center;color:var(--gris);font-size:13px;border-top:1px solid var(--lin)}
+  #creditos{max-width:760px;margin:16px auto 0;text-align:left;font-size:12px} #creditos summary{cursor:pointer;text-align:center} #creditos li{margin-left:18px}
+  .flotante{position:fixed;right:16px;bottom:16px;z-index:30;width:56px;height:56px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+  .flotante svg{width:28px;fill:#fff}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity 1s,transform 1s} .reveal.visto{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body data-nombre-demo="Maison Motors">
+<div id="banda-demo"></div>
+<header><nav class="nav"><a class="logo" href="#" data-nombre></a><a class="link" href="#vitrina">Colección</a></nav></header>
+
+<section class="hero" style="padding:0">
+  <img src="../fotos/toyota-sw4.jpg" alt="Toyota SW4 plateada" fetchpriority="high">
+  <div class="hero-in">
+    <div class="volanta" data-zona="Vehículos seleccionados · {z}"></div>
+    <h1>Pocos autos.<br><i>Todos impecables.</i></h1>
+    <p>Cada unidad revisada, con historial y documentación al día. Coordinamos visitas privadas y prueba de manejo a tu horario.</p>
+    <div class="ctas"><a class="btn lleno" href="#vitrina">Ver la colección</a><a class="btn" href="#visita">Agendar visita</a></div>
+  </div>
+</section>
+
+<section id="vitrina"><div class="wrap">
+  <div class="titulo"><h2 class="reveal">La <i>colección</i></h2><p class="sub reveal">Una selección corta, actualizada desde el panel de administración en minutos.</p></div>
+  <div class="vitrina" id="vitrinaGrid"></div>
+  <div class="mas"><a class="btn" href="#" data-wa="Hola! Quiero ver el stock completo de {n}">Pedir stock completo</a></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="titulo"><h2 class="reveal">El <i>servicio</i></h2></div>
+  <div class="servicio">
+    <div class="serv reveal"><div class="n">i.</div><h3>Visita privada</h3><p>Reservás día y hora desde la web. El auto te espera listo, sin filas ni apuro.</p></div>
+    <div class="serv reveal"><div class="n">ii.</div><h3>Tomamos tu usado</h3><p>Cargás los datos de tu auto y recibís una cotización por WhatsApp.</p></div>
+    <div class="serv reveal"><div class="n">iii.</div><h3>Gestoría incluida</h3><p>Transferencia, seguro y financiación coordinados de punta a punta.</p></div>
+  </div>
+</div></section>
+
+<section id="visita"><div class="wrap visita">
+  <div><h2 class="reveal">Agendá tu <i>visita</i></h2><p class="sub reveal" style="margin-top:12px">Así llega la reserva a tu WhatsApp: ordenada, con el auto y el horario elegido.</p></div>
+  <div class="form">
+    <div><label for="vAuto">Vehículo</label><select id="vAuto"></select></div>
+    <div><label for="vDia">Día</label><select id="vDia"></select></div>
+    <div><label for="vNom">Tu nombre</label><input id="vNom" placeholder="Nombre y apellido" autocomplete="name"></div>
+    <a class="btn lleno" href="#" id="vOk">Confirmar por WhatsApp</a>
+  </div>
+</div></section>
+
+<section style="text-align:center"><div class="wrap">
+  <h2 class="reveal" data-nombre="¿Lo llevamos a la realidad para {n}?"></h2>
+  <p class="sub reveal" style="margin:14px auto 28px">Este es un prototipo. Lo adapto con tu identidad, tus vehículos y tu panel propio.</p>
+  <a class="btn wa" href="#" data-wa="Hola! Soy de {n}, vi el prototipo premium y quiero una web así">Quiero mi web así</a>
+</div></section>
+
+<footer>Prototipo de <strong>Deploy</strong> · Páginas web y automatizaciones · <a href="https://joedev10.github.io/">joedev10.github.io</a><div id="creditos"></div></footer>
+<a class="flotante" href="#" data-wa="Hola! Estoy viendo el prototipo de {n}" aria-label="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.3 14.3 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script src="../autos.js"></script>
+<script src="../comun.js"></script>
+<script>
+document.addEventListener("autos-listos", ({ detail: D }) => {
+  const premium = D.stockPropio ? D.autos.slice(0, 5) : [...D.autos].sort((a, b) => b.p - a.p).slice(0, 5);
+  document.getElementById("vitrinaGrid").innerHTML = premium.map(a => `
+    <article class="pieza reveal">
+      <img src="${D.foto(a)}" alt="${D.esc(a.m)}" loading="lazy">
+      <div class="txt"><small>${[a.a, D.km(a)].filter(Boolean).join(" · ")}</small><h3>${D.esc(a.m)}</h3>
+        <div class="fila"><span>${D.precio(a)}</span><a href="#" data-wa="Hola! Quiero coordinar una visita para ver el ${D.esc(a.m)} ${a.a || ""}.">Coordinar visita</a></div></div>
+    </article>`).join("");
+  const sel = document.getElementById("vAuto");
+  sel.innerHTML = D.autos.slice(0, 12).map(a => `<option>${D.esc(a.m)}${a.a ? " " + a.a : ""}</option>`).join("");
+  const dias = document.getElementById("vDia"), nd = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"], d = new Date();
+  const opciones = []; while (opciones.length < 6) { d.setDate(d.getDate() + 1); if (d.getDay()) opciones.push(`${nd[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`); }
+  dias.innerHTML = opciones.map(o => `<option>${o}</option>`).join("");
+  const act = () => document.getElementById("vOk").dataset.wa = `Hola! Soy ${document.getElementById("vNom").value.trim() || "un cliente"}. Quiero agendar una visita privada para ver el ${sel.value} el ${dias.value}.`;
+  [sel, dias, document.getElementById("vNom")].forEach(x => x.addEventListener("input", act)); act();
+  D.revelar();
+});
+</script>
+</body>
+</html>
