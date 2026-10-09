@@ -123,7 +123,7 @@
 <script>
 document.addEventListener("autos-listos", ({ detail: D }) => {
   const accesibles = D.stockPropio ? D.autos : [...D.autos].sort((a, b) => a.p - b.p);
-  const estrella = D.stockPropio ? D.autos[0] : D.autos.find(a => /Cronos/.test(a.m)) || accesibles[0];
+  const estrella = D.stockPropio ? D.autos[0] : D.autos.find(a => /Cruze/.test(a.m)) || accesibles[0];
   document.getElementById("semana").innerHTML = `
     <div><small>Auto de la semana</small><h3>${D.esc(estrella.m)}</h3>
       <ul>${[estrella.a && "Año " + estrella.a, D.km(estrella), D.tipo(estrella.t), "Listo para transferir"].filter(Boolean).map(x => `<li>${x}</li>`).join("")}</ul>
